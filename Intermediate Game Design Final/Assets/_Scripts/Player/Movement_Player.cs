@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -7,20 +8,24 @@ public class Movement_Player : MonoBehaviour
 {
     // Runtime
     Input_Player pInput;
-    Rigidbody2D rb;
+    Rigidbody rb;
     bool facingRight = true;
 
     [Header("Movement Attributes")]
     [SerializeField] float moveSpeed;
 
+    [Header("Player Graphics")]
+    public Transform pGraphics;
+
 
     private void Awake() {
         pInput = GetComponent<Input_Player>();
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update() {
-        if((rb.velocity.x > 0 && !facingRight) || (rb.velocity.x < 0 && facingRight))
+        // Fix this??
+        if(((pInput.GetRawMoveDirection().x > 0 && !facingRight) || (pInput.GetRawMoveDirection().x < 0 && facingRight)) && !pInput.GetIsPaused())
             Flip();
     }
 
@@ -38,12 +43,21 @@ public class Movement_Player : MonoBehaviour
 #region Movement Methods
 // Move player based on raw move direction.
     private void MovePlayer(){
-        rb.velocity = pInput.GetRawMoveDirection() * moveSpeed * Time.fixedDeltaTime;
+        // Get raw move direction.
+        Vector3 rawMoveDirection = pInput.GetRawMoveDirection();
+
+        // Fix move direction for 3D space and account for current y velocity.
+        Vector3 fixedMoveDirection = new Vector3(rawMoveDirection.x, 0, rawMoveDirection.y);
+
+        rb.velocity = (fixedMoveDirection * moveSpeed * Time.fixedDeltaTime) + new Vector3(0, rb.velocity.y, 0);
     }
 
 // Flip our sprite.
     private void Flip(){
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        if(facingRight)
+            pGraphics.rotation = Quaternion.Euler(0, 180, 0);
+        else
+            pGraphics.rotation = Quaternion.Euler(0, 0, 0);
 
         facingRight = !facingRight;
     }

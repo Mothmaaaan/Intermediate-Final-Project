@@ -27,7 +27,7 @@ public class Ground_LevelGeneration : MonoBehaviour
     [SerializeField] int obstacleDensity;
 
 
-    private void Awake() {
+    public void StartLevelGeneration(){
         // We want to start at the bottom left of our level, or
         // half of our width and length subtracted.
         origin = new Vector3Int(-(xSize / 2), -(ySize / 2));
@@ -57,7 +57,16 @@ public class Ground_LevelGeneration : MonoBehaviour
 #region Ground Generator
 // Generates the ground layer of our level.
     private void GenerateGround(Tile groundTile, Tile wallTile){
-        // Generate our grond with walls on the outer edge.
+        // Create a cube.
+        GameObject groundCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        groundCube.AddComponent<BoxCollider>();
+
+        // Update groundCube transform to fit our level.
+        groundCube.transform.position = new Vector3(0, -0.51f, 0);
+        groundCube.transform.rotation = Quaternion.Euler(0, 45, 0);
+        groundCube.transform.localScale = new Vector3(xSize, 1, ySize);
+
+        // Generate our ground with walls on the outer edge.
         for(int i=0; i<xSize; i++){
             for(int j=0; j<ySize; j++){
                 // If we are on the edge of the map, add a wall tile.

@@ -6,9 +6,13 @@ public class Input_Player : MonoBehaviour
 {
     // Runtime
     PlayerControls pControls;
+    bool isPaused = false;
 
     [Header("Input Containers")]
     [SerializeField] Vector2 rawMoveDirection;
+
+    [Header("Pause Text")]
+    [SerializeField] GameObject pauseText;
 
 
     private void Awake() {
@@ -16,6 +20,9 @@ public class Input_Player : MonoBehaviour
 
         // Get move direction
         pControls.Gameplay.Movement.performed += ctx => rawMoveDirection = ctx.ReadValue<Vector2>();
+
+        // Pausing
+        pControls.Gameplay.Pause.started += ctx => TogglePause();
     }
 
 #region Getters
@@ -24,7 +31,26 @@ public class Input_Player : MonoBehaviour
         return rawMoveDirection;
     }
 
+// Get isPaused.
+    public bool GetIsPaused(){
+        return isPaused;
+    }
+#endregion
 
+#region Input Functions
+// Toggle pause.
+    private void TogglePause(){
+        isPaused = !isPaused;
+
+        if(isPaused){
+            Time.timeScale = 0;
+            pauseText.SetActive(true);
+        }
+        else{
+            Time.timeScale = 1;
+            pauseText.SetActive(false);
+        } 
+    }
 #endregion
 
 #region Enable/Disable
