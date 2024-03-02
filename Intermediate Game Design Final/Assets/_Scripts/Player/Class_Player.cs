@@ -9,23 +9,20 @@ public class Class_Player : MonoBehaviour
     Movement_Player pMovement;
 
     [Header("Default Character")]
-    [SerializeField] string name;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float health;
+    [SerializeField] string className;
 
 
     private void Awake() {
         pHealth = GetComponent<Health_Player>();
         pMovement = GetComponent<Movement_Player>();
-
-        SetUpCharacter();
     }
 
 #region Character Setup
-// Set up our character. (THIS IS WHERE WE PASS THROUGH A CHARACTER REFERENCE.)
-    private void SetUpCharacter(){
-        pHealth.SetHealth(health);
-        pMovement.SetMoveSpeed(moveSpeed);
+// Set up our character. (THIS IS WHERE WE PASS THROUGH A CLASS REFERENCE.)
+    public void SetUpCharacter(Class thisClass){
+        className = thisClass.name;
+        pHealth.SetHealth(thisClass.health);
+        pMovement.SetMoveSpeed(thisClass.speed);
     }
 #endregion
 }
