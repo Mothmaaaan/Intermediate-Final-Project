@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Health_Player : MonoBehaviour
 {
-    // Runtime
-    SpriteRenderer playerSprite;
-
     [Header("Heath")]
     [SerializeField] float maxHealth;
     [SerializeField] float currentHealth;
@@ -15,10 +12,10 @@ public class Health_Player : MonoBehaviour
     [SerializeField] float flashTime;
     [SerializeField] int numFlashes;
 
+    [Header("Sprite Renderers")]
+    [SerializeField] SpriteRenderer leftSprite;
+    [SerializeField] SpriteRenderer rightSprite;
 
-    private void Awake() {
-        playerSprite = GetComponent<SpriteRenderer>();
-    }
 
 #region Set Health
 // Set our health.
@@ -26,25 +23,33 @@ public class Health_Player : MonoBehaviour
         maxHealth = health;
         currentHealth = maxHealth;
     }
+
+// Get our current health.
+    public float GetCurrentHealth(){
+        return currentHealth;
+    }
 #endregion
 
 #region Take Damage
 // Take Damage if we hit an enemy.
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Enemy")){
             TakeDamage(5, "Physical");
-            Destroy(other.gameObject);
         }
 
         if(other.CompareTag("Magic Enemy")){
             TakeDamage(5, "Magic");
-            Destroy(other.gameObject);
         }           
     }
 
 // Applies damage to health and initiates damage flash.
     private void TakeDamage(float damage, string damageType){
         currentHealth -= damage;
+
+        // Check for death!
+        if(currentHealth <= 0){
+            // Die.
+        }
 
         StartCoroutine(DamageFlash(damageType, 0));
     }
@@ -54,7 +59,7 @@ public class Health_Player : MonoBehaviour
 #region Damage Flash
 // Perform a damage flash depending on what kind of damagae.
     IEnumerator DamageFlash(string damageType, int flashes){
-        Color startColor = playerSprite.color;
+        Color startColor = new Color(1, 1, 1, 1);
         Color targetColor = new Color(1, 0, 0, 1);
 
         switch(damageType){
@@ -70,27 +75,29 @@ public class Health_Player : MonoBehaviour
         
         // Lerp to target color.
         while(lerpTime < flashTime){
-            playerSprite.color = Color.Lerp(startColor, targetColor, lerpTime / flashTime);
+            leftSprite.color = Color.Lerp(startColor, targetColor, lerpTime / flashTime);
+            rightSprite.color = Color.Lerp(startColor, targetColor, lerpTime / flashTime);
             lerpTime += Time.deltaTime;
             yield return null;
         }
-        playerSprite.color = targetColor;
+        leftSprite.color = targetColor;
+        rightSprite.color = targetColor;
 
         lerpTime = 0;
         // Lerp back to start color.
         while(lerpTime < flashTime){
-            playerSprite.color = Color.Lerp(targetColor, startColor, lerpTime / flashTime);
+            leftSprite.color = Color.Lerp(targetColor, startColor, lerpTime / flashTime);
+            rightSprite.color = Color.Lerp(targetColor, startColor, lerpTime / flashTime);
             lerpTime += Time.deltaTime;
             yield return null;
         }
-        playerSprite.color = startColor;
+        leftSprite.color = startColor;
+        rightSprite.color = startColor;
 
         flashes++;
 
         if(flashes < numFlashes)
-            StartCoroutine(DamageFlash(damageType, flashes));
-        
+            StartCoroutine(DamageFlash(damageType, flashes));       
     }
-
 #endregion
 }

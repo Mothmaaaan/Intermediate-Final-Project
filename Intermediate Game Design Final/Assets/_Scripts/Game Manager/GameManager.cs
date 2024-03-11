@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     // Runtime
     Class playerClass;
     ClassList cList;
+    bool timeGame = false;
 
     [Header("Player Creation")]
     [SerializeField] GameObject player;
@@ -17,9 +18,18 @@ public class GameManager : MonoBehaviour
     [Header("Class Attributes")]
     [SerializeField] TextMeshProUGUI labelText;
 
+    [Header("Game Timer")]
+    [SerializeField] float gameTimer;
+
 
     private void Awake() {
         cList = GetComponent<ClassList>();
+    }
+
+    private void Update() {
+        if(timeGame){
+            gameTimer += Time.deltaTime;
+        }
     }
 
 #region Create Player
@@ -41,6 +51,22 @@ public class GameManager : MonoBehaviour
     public void GetClass(){
         playerClass = cList.SearchForClass(labelText.text);
     }
+#endregion
 
+#region Game Timer
+// Start the game timer!
+    public void StartGameTimer(){
+        timeGame = true;
+    }
+
+// Stop the game timer...
+    public void StopGameTimer(){
+        timeGame = false;
+    }    
+
+// Get the value of the game timer.
+    public float GetGameTimer(){
+        return gameTimer;
+    }
 #endregion
 }
