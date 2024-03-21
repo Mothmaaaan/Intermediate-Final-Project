@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,15 +11,17 @@ public class Ground_LevelGeneration : MonoBehaviour
 
     [Header("Tilemaps")]
     [SerializeField] Tilemap groundTileMap;
-    [SerializeField] Tilemap obstacleTileMap;
 
     [Header("Tiles")]
     [SerializeField] Tile dirtTile;
     [SerializeField] Tile stoneTile;
-    [SerializeField] Tile rockTile;
     [SerializeField] Tile sandTile;
     [SerializeField] Tile sandstoneTile;
-    [SerializeField] Tile cactusTile;
+
+    [Header("Obstacles")]
+    [SerializeField] Transform obstacleHolder;
+    [SerializeField] GameObject rockObstacle;
+    [SerializeField] GameObject cactusObstacle;
 
     [Header("Level Attributes")]
     [SerializeField] string biome;
@@ -41,11 +44,11 @@ public class Ground_LevelGeneration : MonoBehaviour
         switch(biome){
             case "Dirt":
                 GenerateGround(dirtTile, stoneTile);
-                GenerateObstacles(rockTile);
+                GenerateObstacles(rockObstacle);
                 break;
             case "Desert":
                 GenerateGround(sandTile, sandstoneTile);
-                GenerateObstacles(cactusTile);
+                GenerateObstacles(cactusObstacle);
                 break;
             default:
                 print("Cannot read biome.");
@@ -70,10 +73,12 @@ public class Ground_LevelGeneration : MonoBehaviour
         for(int i=0; i<xSize; i++){
             for(int j=0; j<ySize; j++){
                 // If we are on the edge of the map, add a wall tile.
-                if(i == 0 || i == xSize - 1 || j == 0 || j == ySize - 1)
-                    obstacleTileMap.SetTile(origin + new Vector3Int(i, j), wallTile);
-                else
+                if(i == 0 || i == xSize - 1 || j == 0 || j == ySize - 1){
+                    //obstacleTileMap.SetTile(origin + new Vector3Int(i, j), wallTile);
+                }
+                else{
                     groundTileMap.SetTile(origin + new Vector3Int(i, j), groundTile);
+                }             
             }
         }
     }
@@ -81,12 +86,21 @@ public class Ground_LevelGeneration : MonoBehaviour
 
 #region Obstacle Generator
 // Generates obstacles for our level.
-    private void GenerateObstacles(Tile obstacleTile){
+    private void GenerateObstacles(GameObject obstacle){
         // Determine how many tiles are in our level.
-        int numGroundTiles = (xSize - 2) * (ySize - 2);
+        float halfX = xSize / 2;
+        float halfY = ySize / 2;
+        print(halfX);
+        print(halfY);
 
         for(int i=0; i<obstacleDensity; i++){
-            obstacleTileMap.SetTile(origin + new Vector3Int(Random.Range(1, xSize - 1),Random.Range(1, xSize - 1)), obstacleTile);
+            GameObject thisObstacle = Instantiate(obstacle, Vector3.zero, quaternion.identity);
+
+            thisObstacle.transform.SetParent(obstacleHolder);
+
+            //thisObstacle.transform.localPosition = new Vector3(UnityEngine.Random.Range(-xSize, xSize), 0.5f, UnityEngine.Random.Range(-ySize, ySize));
+            thisObstacle.transform.localPosition = new Vector3(UnityEngine.Random.Range(-halfX, halfX), 0.5f, UnityEngine.Random.Range(-halfY, halfY));
+
         }
     }
 #endregion

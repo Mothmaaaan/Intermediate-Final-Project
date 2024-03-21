@@ -11,6 +11,7 @@ public class Movement_Player : MonoBehaviour
     Input_Player pInput;
     Rigidbody rb;
     bool facingRight = true;
+    bool canMove = true;
 
     [Header("Movement Attributes")]
     [SerializeField] float moveSpeed;
@@ -26,12 +27,13 @@ public class Movement_Player : MonoBehaviour
 
     private void Update() {
         // Fix this??
-        if(((pInput.GetRawMoveDirection().x > 0 && !facingRight) || (pInput.GetRawMoveDirection().x < 0 && facingRight)) && !pInput.GetIsPaused())
+        if(canMove && ((pInput.GetRawMoveDirection().x > 0 && !facingRight) || (pInput.GetRawMoveDirection().x < 0 && facingRight)) && !pInput.GetIsPaused())
             Flip();
     }
 
     private void FixedUpdate() {
-        MovePlayer();
+        if(canMove)
+            MovePlayer();
     }
 
 #region Set Move Speed
@@ -62,5 +64,15 @@ public class Movement_Player : MonoBehaviour
 
         facingRight = !facingRight;
     }
+
+// Get facingRight.
+    public bool GetFacingRight(){
+        return facingRight;
+    }
+
+// Disable Movement.
+    public void DisableMovement(){
+        canMove = false;
+    }    
 #endregion
 }

@@ -25,9 +25,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8332305982686052403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.112, y: -0.022, z: 0}
+  m_LocalScale: {x: 1.39, y: 1.39, z: 1.39}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8332305982689913838}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 32d3491ae20031741a3dad69292c545c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 8332305982689913839}
   - component: {fileID: 8332305982689913835}
   - component: {fileID: 8332305982689913836}
+  - component: {fileID: 1826716522253049738}
   m_Layer: 6
   m_Name: Crawler
   m_TagString: Enemy
@@ -147,8 +148,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.43}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.8715848, z: 0.43}
+  m_Center: {x: 0, y: -0.06420761, z: 0}
 --- !u!114 &8332305982689913836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 120
   moveThreshold: 0.8
+--- !u!114 &1826716522253049738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332305982689913834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d3205a490cd484fb6dc106f108126c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  currentHealth: 0
+  deathEffect: {fileID: 5773409930497968892, guid: 692cc4c4f9d20e24381d38c66487158d, type: 3}
 --- !u!1 &8332305983276459606
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,5 +222,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.43}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.0713875, y: 0.9093781, z: 0.49088934}
+  m_Center: {x: 0.0041992664, y: -0.045310944, z: -0.0010498315}

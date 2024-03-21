@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     Class playerClass;
     ClassList cList;
     bool timeGame = false;
+    GameObject thisPlayer;
+    Health_Player pHealth;
+    Movement_Player pMovement;
 
     [Header("Player Creation")]
     [SerializeField] GameObject player;
@@ -21,6 +25,9 @@ public class GameManager : MonoBehaviour
     [Header("Game Timer")]
     [SerializeField] float gameTimer;
 
+    [Header("Lose Menu")]
+    [SerializeField] GameObject loseMenu;
+
 
     private void Awake() {
         cList = GetComponent<ClassList>();
@@ -30,12 +37,21 @@ public class GameManager : MonoBehaviour
         if(timeGame){
             gameTimer += Time.deltaTime;
         }
+
+        // This is where we want to kill the player.
+        if(thisPlayer && pHealth.GetCurrentHealth() <= 0 && timeGame){
+            pMovement.DisableMovement();
+
+            loseMenu.SetActive(true);
+        }
     }
 
 #region Create Player
 // Instantiate player prefab.
     public void CreatePlayer(){
-        GameObject thisPlayer = Instantiate(player, spawnPosition, quaternion.identity);
+        thisPlayer = Instantiate(player, spawnPosition, quaternion.identity);
+        pHealth = thisPlayer.GetComponent<Health_Player>();
+        pMovement = thisPlayer.GetComponent<Movement_Player>();
 
         AdoptClass(thisPlayer);
     }
@@ -43,6 +59,11 @@ public class GameManager : MonoBehaviour
 // Set up character stats depending on class.
     public void AdoptClass(GameObject thisPlayer){
         thisPlayer.GetComponent<Class_Player>().SetUpCharacter(playerClass);
+    }
+
+// If the player dies, we want to stop the game.
+    private void OnPlayerDeath(){
+
     }    
 #endregion
 
@@ -67,6 +88,13 @@ public class GameManager : MonoBehaviour
 // Get the value of the game timer.
     public float GetGameTimer(){
         return gameTimer;
+    }
+#endregion
+
+#region Scene Management
+// Reload the current scene.
+    public void ReloadScene(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 #endregion
 }

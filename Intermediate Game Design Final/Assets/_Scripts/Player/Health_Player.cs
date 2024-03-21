@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Health_Player : MonoBehaviour
 {
+    // Runtime
+    GameObject loseMenu;
+
     [Header("Heath")]
     [SerializeField] float maxHealth;
     [SerializeField] float currentHealth;
@@ -16,6 +20,10 @@ public class Health_Player : MonoBehaviour
     [SerializeField] SpriteRenderer leftSprite;
     [SerializeField] SpriteRenderer rightSprite;
 
+
+    private void Awake() {
+        loseMenu = GameObject.FindGameObjectWithTag("Lose Menu");
+    }
 
 #region Set Health
 // Set our health.
@@ -45,11 +53,6 @@ public class Health_Player : MonoBehaviour
 // Applies damage to health and initiates damage flash.
     private void TakeDamage(float damage, string damageType){
         currentHealth -= damage;
-
-        // Check for death!
-        if(currentHealth <= 0){
-            // Die.
-        }
 
         StartCoroutine(DamageFlash(damageType, 0));
     }

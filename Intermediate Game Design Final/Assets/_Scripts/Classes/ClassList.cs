@@ -8,6 +8,7 @@ public class ClassList : MonoBehaviour
     public Class Magician = new Class("Magician", 100, 200);
     public Class StreetPerformer = new Class("Street Performer", 120, 180);
     public Class EscapeArtist = new Class("Escape Artist", 80, 240);
+    public Class TestDummy = new Class("Test Dummy", 5, 400);
 
     // Class List
     public List<Class> classes = new List<Class>();
@@ -17,6 +18,7 @@ public class ClassList : MonoBehaviour
         classes.Add(Magician);
         classes.Add(StreetPerformer);
         classes.Add(EscapeArtist);
+        classes.Add(TestDummy);
     }
 
 #region Add Class
