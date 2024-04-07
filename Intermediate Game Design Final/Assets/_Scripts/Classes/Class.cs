@@ -12,6 +12,6 @@ public struct Class
     public Class(string name, int health, int speed){
         this.name = name;
         this.health = health;
-         this.speed = speed;
+        this.speed = speed;
     }
 }
