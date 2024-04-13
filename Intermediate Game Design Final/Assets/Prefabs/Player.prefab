@@ -634,7 +634,8 @@ GameObject:
   - component: {fileID: 3904507396490831516}
   - component: {fileID: 3904507396490831513}
   - component: {fileID: 3904507396490831514}
-  - component: {fileID: 6363559920773193647}
+  - component: {fileID: 2515209717805652291}
+  - component: {fileID: 8021397371125673277}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -748,7 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0
   pGraphics: {fileID: 3096694590127259344}
---- !u!114 &6363559920773193647
+--- !u!114 &2515209717805652291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -757,19 +758,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 3904507396490831524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c01c33553df7da24e92a0566c5af9ee1, type: 3}
+  m_Script: {fileID: 11500000, guid: b6a9f352f1f557a48a485d66cca87ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  radius: 1
-  length: 1
-  attackCooldownLength: 1
-  slashGraphic: {fileID: 8558221866710929941, guid: cc42c3feaa09289438f11b5507e6833b, type: 3}
+  meleeGraphic: {fileID: 8558221866710929941, guid: cc42c3feaa09289438f11b5507e6833b, type: 3}
   graphicTime: 0.2
   graphicLength: 0.5
+  graphicColor: {r: 1, g: 0, b: 0, a: 1}
+  meleeCooldown: 0
+--- !u!114 &8021397371125673277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904507396490831524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c935eda53a440fd42ba623645d4be365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6659598744597175718
 GameObject:
   m_ObjectHideFlags: 0

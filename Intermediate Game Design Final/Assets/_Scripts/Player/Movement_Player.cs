@@ -73,6 +73,11 @@ public class Movement_Player : MonoBehaviour
 // Disable Movement.
     public void DisableMovement(){
         canMove = false;
-    }    
+    }
+
+// Disable Graphics.
+    public void DisableGraphics(){
+        pGraphics.gameObject.SetActive(false);
+    }
 #endregion
 }

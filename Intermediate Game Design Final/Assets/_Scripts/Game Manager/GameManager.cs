@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     [Header("Lose Menu")]
     [SerializeField] GameObject loseMenu;
 
+    public delegate void PlayerEvent();
+    public event PlayerEvent OnKillPlayer;
+
 
     private void Awake() {
         cList = GetComponent<ClassList>();
@@ -40,9 +43,7 @@ public class GameManager : MonoBehaviour
 
         // This is where we want to kill the player.
         if(thisPlayer && pHealth.GetCurrentHealth() <= 0 && timeGame){
-            pMovement.DisableMovement();
-
-            loseMenu.SetActive(true);
+            KillPlayer();
         }
     }
 
@@ -53,6 +54,10 @@ public class GameManager : MonoBehaviour
         pHealth = thisPlayer.GetComponent<Health_Player>();
         pMovement = thisPlayer.GetComponent<Movement_Player>();
 
+        // Subscribe disable methods to event.
+        OnKillPlayer += pMovement.DisableGraphics;
+        OnKillPlayer += pMovement.DisableMovement;
+
         AdoptClass(thisPlayer);
     }
 
@@ -60,11 +65,18 @@ public class GameManager : MonoBehaviour
     public void AdoptClass(GameObject thisPlayer){
         thisPlayer.GetComponent<Class_Player>().SetUpCharacter(playerClass);
     }
+#endregion
 
-// If the player dies, we want to stop the game.
-    private void OnPlayerDeath(){
+#region Destroy Player
+// Kills the player.
+    public void KillPlayer(){
+        OnKillPlayer.Invoke();
+        //OnKillPlayer -= pMovement.DisableGraphics;
+        //OnKillPlayer -= pMovement.DisableMovement;
 
-    }    
+        loseMenu.SetActive(true);
+    }
+
 #endregion
 
 #region Get Class
