@@ -8,6 +8,7 @@ TagManager:
   - Magic Enemy
   - Lose Menu
   - Pickup
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Damage
   - Player
   - Death Parts
-  - 
+  - Obstacle
   - 
   - 
   - 
