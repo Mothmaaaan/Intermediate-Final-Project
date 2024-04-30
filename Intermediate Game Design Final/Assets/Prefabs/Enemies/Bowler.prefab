@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0713875, y: 0.9093781, z: 0.49088934}
-  m_Center: {x: 0.0041992664, y: -0.045310944, z: -0.0010498315}
+  m_Size: {x: 2.7, y: 2.373185, z: 0.5464597}
+  m_Center: {x: -0.07110703, y: 0.68659246, z: 0.002923295}
 --- !u!1 &8435834339947535772
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 8435834339947535769}
   - component: {fileID: 8435834339947535774}
   - component: {fileID: 8435834339947535775}
+  - component: {fileID: -7661229875718615982}
   m_Layer: 6
   m_Name: Bowler
   m_TagString: Enemy
@@ -110,8 +111,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8715848, z: 0.43}
-  m_Center: {x: 0, y: -0.06420761, z: 0}
+  m_Size: {x: 2.5, y: 2.2848985, z: 0.43}
+  m_Center: {x: 0, y: 0.64244926, z: 0}
 --- !u!114 &8435834339947535774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   currentHealth: 0
-  deathEffect: {fileID: 5773409930497968892, guid: 692cc4c4f9d20e24381d38c66487158d, type: 3}
+  deathEffect: {fileID: 1460910647842845538, guid: 1355af7c32fe84f49bcffd5080b53bd6, type: 3}
 --- !u!114 &8435834339947535775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,10 +143,31 @@ MonoBehaviour:
   moveSpeed: 150
   moveThreshold: 10
   chargeSpeed: 2
-  bowlCooldown: 2
+  bowlCooldown: 5
   projectile: {fileID: 3331224848496703620, guid: baae77e0aca8f484b803a6d258e5c60c, type: 3}
   bowlPoint: {fileID: 8435834340979021646}
   bowlStrength: 15
+  bowlerAnim: {fileID: 0}
+--- !u!95 &-7661229875718615982
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435834339947535772}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f08c067fc139bda47b33a60959c4828b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8435834340979021647
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8435834341259593735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.112, y: -0.022, z: 0}
+  m_LocalPosition: {x: -0.112, y: 0.799, z: 0}
   m_LocalScale: {x: 1.39, y: 1.39, z: 1.39}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -250,7 +272,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 32d3491ae20031741a3dad69292c545c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c632bcc263dfde44e872c87d5ef028d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

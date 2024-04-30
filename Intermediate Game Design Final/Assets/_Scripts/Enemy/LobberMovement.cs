@@ -20,10 +20,14 @@ public class LobberMovement : MonoBehaviour
     [SerializeField] Transform lobPoint;
     [SerializeField] float lobStrength;
 
+    [Header("Animation")]
+    [SerializeField] Animator lobberAnim;
+
 
     private void Awake() {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
+        lobberAnim = GetComponent<Animator>();
     }
 
     private void FixedUpdate() {
@@ -55,10 +59,12 @@ public class LobberMovement : MonoBehaviour
 // Lob a projectile towards the player.
     IEnumerator Lob(){
         // Start lob animation.
+        lobberAnim.SetBool("charge", true);
 
         yield return new WaitForSeconds(chargeSpeed);
 
         // Stop lob animation.
+        lobberAnim.SetBool("charge", false);
 
         // Lob this projectile.
         GameObject thisProjectile = Instantiate(projectile, lobPoint.position, lobPoint.rotation);

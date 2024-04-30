@@ -7151,8 +7151,8 @@ MonoBehaviour:
   - {fileID: 8332305982689913834, guid: d8e1d85e7ebda3c45b1e5e71155ce9d6, type: 3}
   - {fileID: 4026972601714716968, guid: 1ea9c7a9cd727bf4e922ac7364b8b53a, type: 3}
   spawnDistance: 15
-  timeBetweenSpawns: 0.25
-  minimumSpawnRate: 0.1
+  timeBetweenSpawns: 0.5
+  minimumSpawnRate: 0.2
 --- !u!114 &2055499101
 MonoBehaviour:
   m_ObjectHideFlags: 0

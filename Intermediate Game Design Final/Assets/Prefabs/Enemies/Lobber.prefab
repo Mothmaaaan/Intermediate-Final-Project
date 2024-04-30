@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 461035088248331079}
   - component: {fileID: 7826812099663408934}
   - component: {fileID: 461035088248331084}
+  - component: {fileID: -2978099189183234420}
   m_Layer: 6
   m_Name: Lobber
   m_TagString: Enemy
@@ -65,8 +66,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8715848, z: 0.43}
-  m_Center: {x: 0, y: -0.06420761, z: 0}
+  m_Size: {x: 1, y: 1.9514326, z: 0.43}
+  m_Center: {x: 0, y: 0.4757163, z: 0}
 --- !u!114 &7826812099663408934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   currentHealth: 0
-  deathEffect: {fileID: 5773409930497968892, guid: 692cc4c4f9d20e24381d38c66487158d, type: 3}
+  deathEffect: {fileID: 5662850839830068358, guid: e2abe55bc945ec841918a08c42a804b1, type: 3}
 --- !u!114 &461035088248331084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,10 +98,31 @@ MonoBehaviour:
   moveSpeed: 150
   moveThreshold: 5
   chargeSpeed: 1
-  lobCooldown: 2
+  lobCooldown: 3
   projectile: {fileID: 1206077573766954080, guid: 2e59de83f746c764a9c2f4b7cf2c6cc8, type: 3}
   lobPoint: {fileID: 6480270347099858766}
   lobStrength: 4.5
+  lobberAnim: {fileID: 0}
+--- !u!95 &-2978099189183234420
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461035088248331078}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5859bef9659267498623ba658819aca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &461035088311562399
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461035088311562399}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.112, y: -0.022, z: 0}
+  m_LocalPosition: {x: -0.112, y: 0.6, z: 0}
   m_LocalScale: {x: 1.39, y: 1.39, z: 1.39}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -174,7 +196,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 32d3491ae20031741a3dad69292c545c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2bf423bad52f21e4fac96c15d94130ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -228,8 +250,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0713875, y: 0.9093781, z: 0.49088934}
-  m_Center: {x: 0.0041992664, y: -0.045310944, z: -0.0010498315}
+  m_Size: {x: 1.0713875, y: 1.9362743, z: 0.49088934}
+  m_Center: {x: 0.0041992664, y: 0.46813715, z: -0.0010498315}
 --- !u!1 &6480270347099858765
 GameObject:
   m_ObjectHideFlags: 0

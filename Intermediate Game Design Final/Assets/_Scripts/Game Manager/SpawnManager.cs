@@ -111,7 +111,7 @@ public class SpawnManager : MonoBehaviour
             spawnPercentage = 0;
         }
 
-        return minimumSpawnRate + (1.5f * spawnPercentage);
+        return minimumSpawnRate + (2f * spawnPercentage);
     }
 
 #endregion

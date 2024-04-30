@@ -20,10 +20,14 @@ public class BowlerMovement : MonoBehaviour
     [SerializeField] Transform bowlPoint;
     [SerializeField] float bowlStrength;
 
+    [Header("Animation")]
+    [SerializeField] Animator bowlerAnim;
+
 
     private void Awake() {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
+        bowlerAnim = GetComponent<Animator>();
     }
 
     private void FixedUpdate() {
@@ -55,10 +59,12 @@ public class BowlerMovement : MonoBehaviour
 // Bowl a projectile towards the player.
     IEnumerator Bowl(){
         // Start Bowl animation.
+        bowlerAnim.SetBool("charge", true);
 
         yield return new WaitForSeconds(chargeSpeed);
 
         // Stop Bowl animation.
+        bowlerAnim.SetBool("charge", false);
 
         // Lob this projectile.
         GameObject thisProjectile = Instantiate(projectile, bowlPoint.position, bowlPoint.rotation);
