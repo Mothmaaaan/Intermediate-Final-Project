@@ -14,6 +14,7 @@ public class Ground_LevelGeneration : MonoBehaviour
     [SerializeField] Camera mainCam;
     [SerializeField] Color lightColor;
     [SerializeField] Color darkColor;
+    [SerializeField] float duration;
 
     [Header("Tilemaps")]
     [SerializeField] Tilemap groundTileMap;
@@ -24,9 +25,9 @@ public class Ground_LevelGeneration : MonoBehaviour
 
     [Header("Obstacles")]
     [SerializeField] Transform obstacleHolder;
-    [SerializeField] GameObject rockObstacle;
     [SerializeField] GameObject cubeObstacle;
     [SerializeField] LayerMask obstacleLayer;
+    [SerializeField] bool crazyObstacles;
 
     [Header("Level Attributes")]
     [SerializeField] string biome;
@@ -47,7 +48,9 @@ public class Ground_LevelGeneration : MonoBehaviour
         xSize = lSettings.levelSize;
         ySize = lSettings.levelSize;
         obstacleDensity = lSettings.obstacleDensity;
-        obstacleTreeSize = lSettings.obstacelSize;
+        obstacleTreeSize = lSettings.obstacleSize;
+        biome = lSettings.mode;
+        crazyObstacles = lSettings.crazyObstacles;
 
         // We want to start at the bottom left of our level, or
         // half of our width and length subtracted.
@@ -62,18 +65,34 @@ public class Ground_LevelGeneration : MonoBehaviour
         switch(biome){
             case "Light":
                 GenerateGround(lightTile, lightGround);
-                GenerateObstacles(cubeObstacle, lightCubeMats);
-                mainCam.backgroundColor = lightColor;
+                StartCoroutine(StartGeneratingObstacles(cubeObstacle, lightCubeMats));
+                StartCoroutine(BackgroundColorTransition(lightColor));
                 break;
             case "Dark":
                 GenerateGround(darkTile, darkGround);
-                GenerateObstacles(cubeObstacle, darkCubeMats);
-                mainCam.backgroundColor = darkColor;
+                StartCoroutine(StartGeneratingObstacles(cubeObstacle, darkCubeMats));
+                StartCoroutine(BackgroundColorTransition(darkColor));
                 break;
             default:
                 print("Cannot read biome.");
                 break;
         }
+    }
+
+// Transition from dark to light mode or vice versa.
+    IEnumerator BackgroundColorTransition(Color bkgColor){
+        float time = 0;
+        Color startColor = mainCam.backgroundColor;
+        Color endColor = bkgColor;
+
+        while(time < duration){
+            mainCam.backgroundColor = Color.Lerp(startColor, endColor, time / duration);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCam.backgroundColor = endColor;
     }
 #endregion
 
@@ -82,7 +101,7 @@ public class Ground_LevelGeneration : MonoBehaviour
     private void GenerateGround(Tile groundTile, Material mat){
         // Create a cube.
         GameObject groundCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        //groundCube.AddComponent<BoxCollider>();
+        groundCube.AddComponent<BoxCollider>();
 
         // Update groundCube transform to fit our level.
         groundCube.transform.position = new Vector3(0, -0.51f, 0);
@@ -90,6 +109,7 @@ public class Ground_LevelGeneration : MonoBehaviour
         groundCube.transform.localScale = new Vector3(xSize, 1, ySize);
         groundCube.layer = 10;
         groundCube.GetComponent<MeshRenderer>().material = mat;
+        groundCube.transform.tag = "Obstacle";
 
         // Generate our ground with walls on the outer edge.
         for(int i=0; i<xSize; i++){
@@ -107,6 +127,12 @@ public class Ground_LevelGeneration : MonoBehaviour
 #endregion
 
 #region Obstacle Generator
+    IEnumerator StartGeneratingObstacles(GameObject obstacle, Material[] mats){
+        yield return new WaitForSeconds(0.1f);
+
+        GenerateObstacles(obstacle, mats);
+    }
+
 // Generates obstacles for our level.
     private void GenerateObstacles(GameObject obstacle, Material[] mats){
         // Determine how many tiles are in our level.
@@ -142,26 +168,74 @@ public class Ground_LevelGeneration : MonoBehaviour
                 int random = UnityEngine.Random.Range(0, 6);
                 switch(random){
                     case 0:
-                        thisObstacle.transform.localPosition += Vector3.forward;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.forward)){
+                            thisObstacle.transform.localPosition += Vector3.forward;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                     case 1:
-                        thisObstacle.transform.localPosition += -Vector3.forward;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.back)){
+                            thisObstacle.transform.localPosition += Vector3.back;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                     case 2:
-                        thisObstacle.transform.localPosition += Vector3.right;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.right)){
+                            thisObstacle.transform.localPosition += Vector3.right;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                     case 3:
-                        thisObstacle.transform.localPosition += -Vector3.right;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.left)){
+                            thisObstacle.transform.localPosition += Vector3.left;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                     case 4:
-                        thisObstacle.transform.localPosition += Vector3.up;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.up)){
+                            thisObstacle.transform.localPosition += Vector3.up;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                     case 5:
-                        thisObstacle.transform.localPosition += Vector3.up;
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.up)){
+                            thisObstacle.transform.localPosition += Vector3.up;
+                        }else{
+                            Destroy(thisObstacle);
+                        }
                         break;
                 }
+
+                // Stop the cube from floating if crazyObstacles are off.
+                if(!crazyObstacles){
+                    for(int k=0; k<5; k++){
+                        if(!CheckDirection(thisObstacle.transform.position, Vector3.down)){
+                            print("Moved down!");
+                            thisObstacle.transform.localPosition += Vector3.down;
+                        }else{
+                            break;
+                        }
+                    }
+                }
+
+                if(thisObstacle.transform.localPosition.y < 0){
+                    Destroy(thisObstacle);
+                }
+                
             }
         }
+    }
+
+    private bool CheckDirection(Vector3 position, Vector3 direction){
+        if(Physics.Raycast(position, direction, 1f, obstacleLayer)){
+            return true;
+        }
+        return false;
     }
 #endregion
 }

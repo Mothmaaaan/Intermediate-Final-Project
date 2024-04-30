@@ -6,12 +6,12 @@ using UnityEngine;
 public class Movement_Enemy : MonoBehaviour
 {
     // Runtime
-    Transform target;
-    Rigidbody rb;
+    protected Transform target;
+    protected Rigidbody rb;
 
     [Header("Enemy Movement Attributes")]
-    [SerializeField] float moveSpeed;
-    [SerializeField] float moveThreshold;
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float moveThreshold;
 
 
     private void Awake() {

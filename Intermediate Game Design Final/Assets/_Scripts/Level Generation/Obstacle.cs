@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other) {
-        if(other.transform.CompareTag("Obstacle")){
-            Destroy(other.gameObject);
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("Bowler")){
+            Destroy(this.gameObject);
         }
     }
 }

@@ -40,7 +40,19 @@ public class Health_Player : MonoBehaviour
 
         if(other.CompareTag("Magic Enemy")){
             TakeDamage(5, "Magic");
-        }           
+        }
+
+        if(other.CompareTag("Crusher")){
+            TakeDamage(999, "Physical");
+        }
+
+        if(other.CompareTag("Lob")){
+            TakeDamage(15, "Magic");
+        }
+
+        if(other.CompareTag("Bowler")){
+            TakeDamage(30, "Magic");
+        }
     }
 
 // Applies damage to health and initiates damage flash.

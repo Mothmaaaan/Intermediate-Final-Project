@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 using System.IO;
+using Unity.VisualScripting;
 
 public class ClassList : MonoBehaviour
 {
     // Classes
-    public Class Magician = new Class("Magician", 100, 200);
-    public Class StreetPerformer = new Class("Street Performer", 120, 180);
-    public Class EscapeArtist = new Class("Escape Artist", 80, 240);
-    public Class TestDummy = new Class("Test Dummy", 5, 400);
+    public Class Rounded = new Class("Rounded", 100, 200);
+    public Class Delicate = new Class("Delicate", 50, 300);
+    public Class Tank = new Class("Tank", 175, 160);
+    public Class Invincible = new Class("Invincible", 300, 200);
+    public Class AlreadyDead = new Class("Already Dead", 5, 200);
 
     // Class List
     public List<Class> classes = new List<Class>();
     
 
     private void Awake() {
-        classes.Add(Magician);
-        classes.Add(StreetPerformer);
-        classes.Add(EscapeArtist);
-        classes.Add(TestDummy);
+        classes.Add(Rounded);
+        classes.Add(Delicate);
+        classes.Add(Tank);
+        classes.Add(Invincible);
+        classes.Add(AlreadyDead);
     }
 
 #region Add Class

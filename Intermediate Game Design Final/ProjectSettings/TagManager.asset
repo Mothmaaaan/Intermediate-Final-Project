@@ -9,6 +9,14 @@ TagManager:
   - Lose Menu
   - Pickup
   - Obstacle
+  - Crusher
+  - Lob
+  - Bowler
+  - Powerup
+  - pMelee
+  - pRanged
+  - Forcefield
+  - pForcefield
   layers:
   - Default
   - TransparentFX
@@ -21,8 +29,8 @@ TagManager:
   - Player
   - Death Parts
   - Obstacle
-  - 
-  - 
+  - Projectile
+  - Powerup
   - 
   - 
   - 

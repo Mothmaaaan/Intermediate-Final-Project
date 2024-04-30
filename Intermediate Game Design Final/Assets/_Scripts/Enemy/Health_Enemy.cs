@@ -13,6 +13,19 @@ public class Health_Enemy : MonoBehaviour
     [SerializeField] GameObject deathEffect;
 
 
+    private void Awake() {
+        currentHealth = maxHealth;
+    }
+
+    private void Update() {
+        // Check for death!
+        if(currentHealth <= 0){
+            // Die.
+            Instantiate(deathEffect, transform.position, quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
+
 #region Set Health
 // Set our health.
     public void SetHealth(float health){
@@ -30,12 +43,11 @@ public class Health_Enemy : MonoBehaviour
 // Applies damage to health.
     public void TakeDamage(float damage){
         currentHealth -= damage;
+    }
 
-        // Check for death!
-        if(currentHealth <= 0){
-            // Die.
-            Instantiate(deathEffect, transform.position, quaternion.identity);
-            Destroy(gameObject);
+    private void OnTriggerStay(Collider other) {
+        if(other.CompareTag("Forcefield")){
+            currentHealth -= Time.deltaTime;
         }
     }
 #endregion

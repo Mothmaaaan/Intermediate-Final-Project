@@ -12,8 +12,8 @@ public class MeleeAttack : MonoBehaviour
 
     [Header("This Melee Attack")]
     [SerializeField] Melee thisMelee;
-
-    [Header("")]
+    [SerializeField] float damage;
+    [SerializeField] float cooldown;
 
     [Header("Melee Graphic")]
     [SerializeField] GameObject meleeGraphic;
@@ -28,14 +28,14 @@ public class MeleeAttack : MonoBehaviour
     private void Awake() {
         mPlayer = GetComponent<Movement_Player>();
 
-        thisMelee = new Melee("Slash", 5, 1, 1, 1, Color.red);
+        SetUpMelee();
     }
 
     private void Update() {
         if(thisMelee.aName != "" && meleeCooldown <= 0){
             PerformMelee();
 
-            meleeCooldown = thisMelee.cooldown;
+            meleeCooldown = cooldown;
         }
 
         if(thisMelee.aName != "")
@@ -62,7 +62,8 @@ public class MeleeAttack : MonoBehaviour
         Collider[] cols = Physics.OverlapSphere(pos, thisMelee.radius, enemyLayer);
 
         for(int i=0; i<cols.Length; i++){
-            cols[i].GetComponent<Health_Enemy>().TakeDamage(thisMelee.damage);
+            cols[i].GetComponent<Health_Enemy>().TakeDamage(damage);
+            print(cols[i].name + " took " + damage + " damage!");
         }
     }
 #endregion
@@ -70,11 +71,11 @@ public class MeleeAttack : MonoBehaviour
 #region Melee Graphic
 // Make the melee graphic slowly disappear.
     IEnumerator MeleeGraphic(Vector3 pos, bool isFacingRight){
-        SpriteRenderer thisMelee = Instantiate(meleeGraphic, pos, meleeGraphic.transform.rotation).GetComponent<SpriteRenderer>();
+        SpriteRenderer thisMeleeSprite = Instantiate(meleeGraphic, pos, meleeGraphic.transform.rotation).GetComponent<SpriteRenderer>();
 
         // Fix the direction of the melee by multiplying scale by -1.
         if(!isFacingRight)
-            thisMelee.transform.localScale *= -1;
+            thisMeleeSprite.transform.localScale *= -1;
 
         Color startColor = graphicColor;
         Color targetColor = new Color(graphicColor.r, graphicColor.g, graphicColor.b, 0);
@@ -83,13 +84,40 @@ public class MeleeAttack : MonoBehaviour
         
         // Lerp to target color.
         while(lerpTime < graphicTime){
-            thisMelee.color = Color.Lerp(startColor, targetColor, lerpTime / graphicTime);
+            thisMeleeSprite.color = Color.Lerp(startColor, targetColor, lerpTime / graphicTime);
             lerpTime += Time.deltaTime;
             yield return null;
         }
-        Destroy(thisMelee.gameObject);
+        Destroy(thisMeleeSprite.gameObject);
     }
 
+#endregion
+
+#region Powerup
+// If we have this attack already, power it up!
+    public void PowerUpAttack(){
+        if(thisMelee.aName == ""){
+            SetUpMelee();
+            return;
+        }
+
+        int randIndex = UnityEngine.Random.Range(0, 2);
+
+        if(randIndex == 0 && damage < 20){
+            damage += 5;
+        }else if(cooldown > 0.25f){
+            cooldown -= 0.15f;
+        }  
+    }
+
+// Set up our new melee attack.
+    private void SetUpMelee(){
+        thisMelee = new Melee("Slash", 5, 1, 1, 1, Color.red);
+        this.damage = thisMelee.damage;
+        this.cooldown = thisMelee.cooldown;
+        this.graphicColor = thisMelee.color;
+
+    }
 #endregion
 
     // Debugging.
